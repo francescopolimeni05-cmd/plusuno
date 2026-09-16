@@ -1,0 +1,410 @@
+<title>PlusUno Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap">
+<style>
+:root{
+  --ground:#E9EEF1; --panel:#F7F9FA; --surface:#FFFFFF; --ink:#14232B; --muted:#5B6B73;
+  --line:#D5DEE3; --teal:#0E5E6F; --teal-soft:#D8ECEF; --sun:#F2B705; --sun-soft:#FDF1CC;
+  --on-teal:#FFFFFF; --bubble-me:#0E5E6F; --bubble:#EEF2F4; --frame:#14232B;
+  --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body:"DM Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C1519; --panel:#111D22; --surface:#16252B; --ink:#E6EEF1; --muted:#95A7AF;
+    --line:#26383F; --teal:#4FB3C4; --teal-soft:#173A42; --sun:#F2B705; --sun-soft:#3A3010;
+    --on-teal:#08171B; --bubble-me:#2E8C9D; --bubble:#1E3037; --frame:#000000;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C1519; --panel:#111D22; --surface:#16252B; --ink:#E6EEF1; --muted:#95A7AF;
+  --line:#26383F; --teal:#4FB3C4; --teal-soft:#173A42; --sun:#F2B705; --sun-soft:#3A3010;
+  --on-teal:#08171B; --bubble-me:#2E8C9D; --bubble:#1E3037; --frame:#000000;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;padding:32px 16px}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
+.stage{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:48px;align-items:start}
+@media (max-width:860px){.stage{grid-template-columns:1fr;gap:28px}.brief{order:2}}
+
+/* Brief */
+.brief h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,6vw,64px);line-height:.95;letter-spacing:-.02em;margin:0 0 14px}
+.brief h1 span{color:var(--teal)}
+.tagline{font-family:var(--display);font-size:20px;font-weight:500;margin:0 0 22px;text-wrap:balance;max-width:28ch}
+.hmw{border-left:3px solid var(--sun);padding:4px 0 4px 14px;color:var(--muted);max-width:60ch;margin:0 0 28px}
+.label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 0 10px}
+.journey{list-style:none;padding:0;margin:0 0 28px;display:grid;gap:6px;counter-reset:j}
+.journey button{width:100%;text-align:left;background:none;border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;gap:12px;align-items:baseline}
+.journey button:hover{background:var(--panel)}
+.journey b{font-family:var(--display);color:var(--teal);min-width:1.4em;font-variant-numeric:tabular-nums}
+.journey small{color:var(--muted);display:block}
+.note{font-size:13px;color:var(--muted);max-width:60ch}
+
+/* Phone */
+.phone{width:100%;max-width:400px;height:800px;margin:0 auto;background:var(--frame);border-radius:48px;padding:10px;box-shadow:0 30px 60px -30px rgba(10,30,40,.45)}
+.screen{height:100%;background:var(--panel);border-radius:38px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+@media (max-width:440px){.phone{height:760px;border-radius:36px;padding:6px}.screen{border-radius:30px}}
+.status{display:flex;justify-content:space-between;padding:12px 26px 4px;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+.view{flex:1;overflow-y:auto;padding:8px 18px 24px}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--surface);padding:6px 6px 14px}
+.nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--muted);padding:6px 0;position:relative}
+.nav button.on{color:var(--teal);font-weight:700}
+.nav svg{width:22px;height:22px}
+.nav .plus span{width:42px;height:42px;border-radius:14px;background:var(--sun);color:#14232B;display:grid;place-items:center;margin-top:-4px}
+.dot{position:absolute;top:4px;right:calc(50% - 16px);width:8px;height:8px;border-radius:50%;background:var(--sun)}
+
+/* Shared UI */
+h2{font-family:var(--display);font-weight:800;font-size:28px;line-height:1.05;letter-spacing:-.01em;margin:6px 0 4px;text-wrap:balance}
+h3{font-family:var(--display);font-weight:700;font-size:17px;margin:20px 0 10px}
+.sub{color:var(--muted);margin:0 0 14px;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;margin:0 -18px;padding:2px 18px 4px;scrollbar-width:none}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;white-space:nowrap}
+.chip.on{background:var(--teal);border-color:var(--teal);color:var(--on-teal)}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:14px;font-weight:700;background:var(--teal);color:var(--on-teal)}
+.btn.sun{background:var(--sun);color:#14232B}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.back{background:none;border:0;padding:6px 0;color:var(--muted);font-size:14px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--bubble);border-radius:12px;padding:3px;margin:12px 0}
+.seg button{border:0;background:none;border-radius:9px;padding:7px 0;font-size:13px}
+.seg button.on{background:var(--surface);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 4px;font-size:13px;color:var(--muted)}
+.switch{width:40px;height:24px;border-radius:12px;border:0;background:var(--line);position:relative;flex:none}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .15s}
+.switch.on{background:var(--teal)}.switch.on::after{left:19px}
+.day{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--muted);margin:18px 0 8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:10px;text-align:left;width:100%;display:block}
+.card:hover{border-color:var(--teal)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tag{font-size:11px;font-weight:700;border-radius:6px;padding:2px 7px;background:var(--teal-soft);color:var(--teal)}
+.tag.plan{background:var(--sun-soft);color:var(--ink)}
+.price{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+.card h4{font-family:var(--display);font-size:18px;font-weight:700;margin:8px 0 2px;line-height:1.15}
+.meta{color:var(--muted);font-size:13px}
+.going{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12.5px;color:var(--muted)}
+.going b{color:var(--ink)}
+.stack{display:flex}
+.av{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#14232B;border:2px solid var(--surface);flex:none}
+.stack .av+.av{margin-left:-9px}
+.av.lg{width:44px;height:44px;font-size:15px;border:0}
+.joined{font-size:11px;font-weight:700;color:var(--teal)}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin:14px 0;font-size:14px}
+.facts dt{color:var(--muted)}.facts dd{margin:0;font-weight:500}
+.person{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.person:last-child{border-bottom:0}
+.person .who{flex:1;min-width:0}
+.person .who b{display:block}
+.shared{font-size:12px;color:var(--teal);font-weight:500}
+.hint{font-size:12.5px;color:var(--muted);text-align:center;margin:8px 0 0}
+.sticky-cta{position:sticky;bottom:-24px;background:linear-gradient(transparent,var(--panel) 30%);padding:18px 0 4px;display:grid;gap:8px}
+
+/* Chat */
+.chathead{display:flex;align-items:center;gap:10px;padding:4px 18px 10px;border-bottom:1px solid var(--line)}
+.chathead .t{flex:1;min-width:0}
+.chathead b{display:block;font-family:var(--display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pin{background:var(--sun-soft);border-radius:12px;padding:10px 12px;font-size:13px;margin:10px 0}
+.msgs{display:flex;flex-direction:column;gap:8px}
+.msg{max-width:80%;padding:8px 12px;border-radius:16px;background:var(--bubble);font-size:14px}
+.msg small{display:block;font-size:11px;font-weight:700;color:var(--teal)}
+.msg.me{align-self:flex-end;background:var(--bubble-me);color:#fff;border-bottom-right-radius:4px}
+.msg.them{border-bottom-left-radius:4px}
+.sys{align-self:center;font-size:12px;color:var(--muted);text-align:center}
+.composer{border-top:1px solid var(--line);background:var(--surface);padding:8px 12px 12px}
+.composer form{display:flex;gap:8px;margin-top:8px}
+.composer input{flex:1;min-width:0;border:1px solid var(--line);border-radius:999px;padding:9px 14px;background:var(--panel)}
+.composer button[type=submit]{border:0;border-radius:999px;background:var(--teal);color:var(--on-teal);padding:0 16px;font-weight:700}
+
+/* Forms */
+.field{display:grid;gap:5px;margin-bottom:12px}
+.field label{font-size:12px;font-weight:700;color:var(--muted)}
+.field input,.field select{border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:var(--surface);width:100%}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.stats div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.stats b{display:block;font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums}
+.stats span{font-size:11px;color:var(--muted)}
+.check{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.check input{width:20px;height:20px;accent-color:var(--teal)}
+.toast{position:absolute;left:18px;right:18px;top:44px;background:var(--ink);color:var(--panel);border-radius:12px;padding:10px 14px;font-size:13px;text-align:center}
+@media (prefers-reduced-motion:no-preference){.view>*{animation:in .25s ease both}@keyframes in{from{opacity:.4;transform:translateY(4px)}}}
+</style>
+
+<div class="stage">
+  <section class="brief">
+    <p class="label">Design Sprint · ESADE · Clickable prototype</p>
+    <h1>Plus<span>Uno</span></h1>
+    <p class="tagline">Find something to do. Find someone to do it with. Connect in real life.</p>
+    <p class="hmw">How might we connect young adults aged 18–25, especially those moving to a new city, with people in real life through activities, in order to build deeper connections and meaningful relationships?</p>
+    <p class="label">User journey · tap a step to jump there</p>
+    <ol class="journey">
+      <li><button data-go="onboard"><b>1</b><span>Create profile<small>Pick the interests that matter to you</small></span></button></li>
+      <li><button data-go="discover"><b>2</b><span>Discover activities<small>Everything in Barcelona this week, in one place</small></span></button></li>
+      <li><button data-go="event" data-id="e2"><b>3</b><span>Choose and see who is going<small>Time, place, price, student discounts, people like you</small></span></button></li>
+      <li><button data-go="chat" data-id="e2"><b>4</b><span>Chat before the event<small>Say hi and agree where to meet</small></span></button></li>
+      <li><button data-go="create"><b>5</b><span>Create your own free plan<small>"Anyone up for football tonight?"</small></span></button></li>
+      <li><button data-go="after" data-id="p0"><b>6</b><span>Meet, then connect again<small>Keep the people you met, plan the next one</small></span></button></li>
+      <li><button data-go="circle"><b>7</b><span>Build your circle<small>Same faces, repeated experiences, real friends</small></span></button></li>
+    </ol>
+    <p class="note">Built on our research: 6 interviews, the Mikkel persona (19, first-year student, new in the city) and the insight that the problem is not a lack of things to do, but finding what to do, who to do it with, and turning a first meeting into a lasting connection. All events and people are sample data.</p>
+  </section>
+
+  <div class="phone" aria-label="App prototype">
+    <div class="screen">
+      <div class="status"><span>18:24</span><span>Barcelona</span></div>
+      <main class="view" id="view"></main>
+      <div id="composer"></div>
+      <nav class="nav" id="nav"></nav>
+      <div class="toast" id="toast" hidden></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const INTERESTS=["Sports","Sports watching","Running","Padel","Gym","Nightlife","Concerts","Culture","Food & drinks","Language exchange","Gaming","Startups & career","University events","Walks & outdoors"];
+const PEOPLE={
+  lu:{name:"Lucía",from:"Madrid",study:"BBA, ESADE",color:"#F2B705",int:["Padel","Food & drinks","Walks & outdoors"]},
+  ta:{name:"Tom",from:"Rotterdam",study:"MSc Finance",color:"#8FD3DE",int:["Sports watching","Startups & career","Gym"]},
+  an:{name:"Anika",from:"Munich",study:"Exchange, UPF",color:"#F4A9A0",int:["Running","Culture","Language exchange"]},
+  ma:{name:"Marco",from:"Bologna",study:"MiM, ESADE",color:"#B9D98B",int:["Sports watching","Gaming","Food & drinks"]},
+  ju:{name:"Julie",from:"Lyon",study:"Junior designer",color:"#C9B6F2",int:["Concerts","Nightlife","Culture"]},
+  ka:{name:"Kai",from:"Seoul",study:"MiBA, ESADE",color:"#F7C97E",int:["Gaming","Startups & career","Gym"]},
+  so:{name:"Sofia",from:"Lisbon",study:"BBA, ESADE",color:"#9EC5F7",int:["Running","Walks & outdoors","Food & drinks"]},
+  de:{name:"Deon",from:"London",study:"BSc Economics",color:"#E7B3D6",int:["Padel","Gym","Sports"]}
+};
+const SEED=[
+  {id:"e1",kind:"event",cat:"Running",title:"Sunset run club, 5 km easy pace",day:"Thu 17 Sep",time:"19:00",place:"Parc de la Ciutadella, main gate",price:"Free",disc:null,cap:30,going:["an","so","de"],host:"Ciutadella Runners",desc:"Social run at conversation pace, all levels welcome. Stretch together, then optional drinks by Arc de Triomf."},
+  {id:"e2",kind:"event",cat:"Sports watching",title:"Barça match watch party",day:"Thu 17 Sep",time:"21:00",place:"Bar La Esquina, Gràcia",price:"€6",disc:"Students €4 incl. drink",cap:40,going:["ta","ma","ka","lu"],host:"International Students BCN",desc:"Big screen, reserved tables for the group, tapas deal. Come alone, leave with people to watch the next one with."},
+  {id:"p1",kind:"plan",cat:"Padel",title:"Padel doubles, need 1 more player",day:"Fri 18 Sep",time:"18:30",place:"Padel Club Diagonal",price:"Free",disc:"Court split €5 each",cap:4,going:["lu","de"],host:"lu",desc:"Beginner-intermediate. I have spare rackets. We already have 3, looking for a fourth!"},
+  {id:"e3",kind:"event",cat:"Language exchange",title:"Intercambio: Spanish, English, Catalan",day:"Fri 18 Sep",time:"20:00",place:"Café Cosmos, Gràcia",price:"Free",disc:null,cap:50,going:["an","ju","so"],host:"Tandem Nights",desc:"Rotating tables every 20 minutes with conversation cards, so there is no awkward small talk."},
+  {id:"e4",kind:"event",cat:"Startups & career",title:"Founders & students mixer",day:"Sat 19 Sep",time:"11:00",place:"Pier01, Barceloneta",price:"€10",disc:"Students free",cap:80,going:["ka","ta"],host:"BCN Tech City",desc:"Short pitches from early-stage startups, then an open networking brunch."},
+  {id:"p2",kind:"plan",cat:"Gaming",title:"FIFA + pizza night, bring a controller",day:"Sat 19 Sep",time:"20:30",place:"Student flat, Sant Antoni",price:"Free",disc:"Pizza €4 each",cap:6,going:["ma","ka"],host:"ma",desc:"Tournament bracket, low stakes, loser buys the gelato."},
+  {id:"e5",kind:"event",cat:"Concerts",title:"Indie night at Razzmatazz",day:"Sat 19 Sep",time:"23:30",place:"Razzmatazz, Poblenou",price:"€15",disc:"Students €10 before 1:00",cap:60,going:["ju"],host:"Razz Club",desc:"Meet the group at the door at 23:15 so nobody walks in alone."},
+  {id:"p3",kind:"plan",cat:"Walks & outdoors",title:"Sunday walk up to Bunkers del Carmel",day:"Sun 20 Sep",time:"10:00",place:"Metro Alfons X (L4)",price:"Free",disc:null,cap:8,going:["so","an","lu"],host:"so",desc:"Easy 1 hour walk with the best view of the city. Coffee afterwards."},
+  {id:"p0",kind:"plan",cat:"Food & drinks",title:"Coffee after class",day:"Mon 14 Sep",time:"13:00",place:"Satan's Coffee Corner, Gòtic",price:"Free",disc:null,cap:5,going:["lu","ma","an"],host:"lu",desc:"Quick coffee between classes.",past:true}
+];
+const CHATS={
+  e2:[{sys:"Tom created the group chat"},{p:"ta",t:"Hey all! I booked a table near the screen for us"},{p:"ma",t:"Grande. I'll be there around 20:45"},{p:"ka",t:"First time watching a match here, what's the vibe?"},{p:"lu",t:"Loud and fun. Wear something blaugrana"}],
+  p0:[{p:"lu",t:"Coffee tomorrow at 13?"},{p:"an",t:"I'm in!"},{sys:"You met up on Mon 14 Sep"}]
+};
+const REPLIES=["Nice, see you there!","Welcome! Where are you from?","Let's meet 10 minutes before at the entrance","Perfect, I'll look out for you","Haha same, I'm new here too"];
+
+let S={screen:"onboard",prev:"discover",name:"Mikkel",since:"September 2026",interests:new Set(["Gym","Gaming","Sports watching","Startups & career"]),seg:"all",cat:"For you",cheap:false,cur:null,joined:new Set(["p0"]),events:SEED.map(e=>({...e,going:[...e.going]})),chats:JSON.parse(JSON.stringify(CHATS)),circle:{lu:1,ma:1,an:1},added:new Set(),draft:null,unread:new Set()};
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ev=id=>S.events.find(e=>e.id===id);
+const initials=n=>n.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
+const av=(k,cls="")=>k==="me"?`<span class="av ${cls}" style="background:var(--sun)">${esc(initials(S.name))}</span>`:`<span class="av ${cls}" style="background:${PEOPLE[k].color}">${initials(PEOPLE[k].name)}</span>`;
+const hostName=e=>PEOPLE[e.host]?PEOPLE[e.host].name:e.host==="me"?"You":e.host;
+const sharedWith=k=>PEOPLE[k].int.filter(i=>S.interests.has(i));
+function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2200)}
+
+const ICON={
+  discover:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>',
+  chats:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v11H9l-5 4z"/></svg>',
+  create:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>',
+  circle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="3.2"/><circle cx="16.5" cy="10" r="2.6"/><path d="M3 19c.8-3.2 3-5 6-5s5.2 1.8 6 5M15 14.5c2.6 0 4.6 1.4 5.3 4"/></svg>',
+  profile:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>'
+};
+function renderNav(){
+  const tab={discover:"discover",event:"discover",chats:"chats",chat:"chats",after:"chats",create:"create",circle:"circle",profile:"profile"}[S.screen];
+  if(S.screen==="onboard"){$("#nav").hidden=true;return}
+  $("#nav").hidden=false;
+  $("#nav").innerHTML=[["discover","Discover"],["chats","Chats"],["create","Create"],["circle","Circle"],["profile","Profile"]].map(([k,l])=>
+    k==="create"?`<button class="plus" data-go="create" aria-label="Create a plan"><span>${ICON.create}</span></button>`:
+    `<button data-go="${k}" class="${tab===k?"on":""}">${ICON[k]}${l}${k==="chats"&&S.unread.size?'<i class="dot"></i>':""}</button>`).join("");
+}
+
+function card(e){
+  const shared=e.going.filter(k=>sharedWith(k).length).length;
+  return `<button class="card" data-go="event" data-id="${e.id}">
+    <div class="row"><span class="tag ${e.kind==="plan"?"plan":""}">${e.kind==="plan"?"Casual plan · "+esc(e.cat):esc(e.cat)}</span><span class="price">${esc(e.price)}${e.disc&&e.price!=="Free"?" · student deal":""}</span></div>
+    <h4>${esc(e.title)}</h4>
+    <div class="meta">${esc(e.time)} · ${esc(e.place)}</div>
+    <div class="going"><span class="stack">${e.going.slice(0,4).map(k=>av(k)).join("")}${S.joined.has(e.id)?av("me"):""}</span>
+      <span><b>${e.going.length+(S.joined.has(e.id)?1:0)} going</b>${shared?` · ${shared} share your interests`:""}</span>
+      ${S.joined.has(e.id)?'<span class="joined" style="margin-left:auto">Joined</span>':""}</div>
+  </button>`;
+}
+
+const V={
+onboard(){
+  return `<h2>Welcome to Barcelona.<br>Let's find your people.</h2>
+  <p class="sub">Tell us what you enjoy. We'll show activities and people that match, nothing else.</p>
+  <div class="field"><label for="f-name">Your first name</label><input id="f-name" value="${esc(S.name)}"></div>
+  <div class="field"><label for="f-since">In Barcelona since</label><select id="f-since">${["September 2026","Earlier this year","Over a year"].map(o=>`<option ${o===S.since?"selected":""}>${o}</option>`).join("")}</select></div>
+  <p class="label" style="margin-top:6px">Your interests · ${S.interests.size} selected</p>
+  <div class="chips">${INTERESTS.map(i=>`<button class="chip ${S.interests.has(i)?"on":""}" data-act="interest" data-v="${esc(i)}">${esc(i)}</button>`).join("")}</div>
+  <div style="margin-top:22px"><button class="btn" data-act="finishOnboard">Show me what's on</button></div>
+  <p class="hint">No endless feed, no streaks. Just plans worth leaving the house for.</p>`;
+},
+discover(){
+  const cats=["For you","All",...INTERESTS];
+  let list=S.events.filter(e=>!e.past);
+  if(S.seg!=="all")list=list.filter(e=>e.kind===S.seg);
+  if(S.cat==="For you")list=list.filter(e=>S.interests.has(e.cat)||e.going.some(k=>S.circle[k]));
+  else if(S.cat!=="All")list=list.filter(e=>e.cat===S.cat);
+  if(S.cheap)list=list.filter(e=>e.price==="Free"||e.disc);
+  const days=[...new Set(list.map(e=>e.day))];
+  return `<p class="sub" style="margin:0">Hola ${esc(S.name)}</p>
+  <h2>What's on this week</h2>
+  <div class="seg">${[["all","All"],["event","Events"],["plan","Casual plans"]].map(([k,l])=>`<button class="${S.seg===k?"on":""}" data-act="seg" data-v="${k}">${l}</button>`).join("")}</div>
+  <div class="chips scroll">${cats.map(c=>`<button class="chip ${S.cat===c?"on":""}" data-act="cat" data-v="${esc(c)}">${esc(c)}</button>`).join("")}</div>
+  <div class="toggle"><span>Only free or with student discount</span><button class="switch ${S.cheap?"on":""}" data-act="cheap" aria-label="Only free or discounted" aria-pressed="${S.cheap}"></button></div>
+  ${days.length?days.map(d=>`<p class="day">${d}</p>${list.filter(e=>e.day===d).map(card).join("")}`).join(""):
+  `<div class="card" style="text-align:center"><h4>Nothing here yet</h4><p class="meta">Be the first: start a casual plan and others with this interest will see it.</p><button class="btn sun" style="margin-top:10px" data-go="create">Create a plan</button></div>`}`;
+},
+event(){
+  const e=ev(S.cur), j=S.joined.has(e.id), n=e.going.length+(j?1:0);
+  return `<button class="back" data-go="${S.prev}">‹ Back</button>
+  <span class="tag ${e.kind==="plan"?"plan":""}">${e.kind==="plan"?"Casual plan":"Event"} · ${esc(e.cat)}</span>
+  <h2>${esc(e.title)}</h2>
+  <p class="sub">${e.kind==="plan"?"Started by "+esc(hostName(e)):"Organised by "+esc(hostName(e))}</p>
+  <dl class="facts"><dt>When</dt><dd>${esc(e.day)}, ${esc(e.time)}</dd><dt>Where</dt><dd>${esc(e.place)}</dd>
+  <dt>Price</dt><dd>${esc(e.price)}${e.disc?` <span class="shared">· ${esc(e.disc)}</span>`:""}</dd><dt>Spots</dt><dd>${n} of ${e.cap} taken</dd></dl>
+  <p>${esc(e.desc)}</p>
+  <h3>Who's going</h3>
+  <div>${e.going.map(k=>{const sh=sharedWith(k);return `<div class="person">${av(k,"lg")}<div class="who"><b>${PEOPLE[k].name}${S.circle[k]?' <span class="joined">· in your circle</span>':""}</b><span class="meta">${PEOPLE[k].from} · ${PEOPLE[k].study}</span>${sh.length?`<div class="shared">You both like ${sh.map(esc).join(", ")}</div>`:""}</div></div>`}).join("")}
+  ${j?`<div class="person">${av("me","lg")}<div class="who"><b>You</b><span class="meta">New in Barcelona</span></div></div>`:""}</div>
+  <div class="sticky-cta">${e.past?`<button class="btn sun" data-go="after" data-id="${e.id}">How was it?</button>`:
+   j?`<button class="btn" data-go="chat" data-id="${e.id}">Open group chat</button><button class="btn ghost" data-act="leave">Leave</button>`:
+   `<button class="btn" data-act="join">Join and say hi in the chat</button><p class="hint">You'll meet the group in the chat before the day, so you never walk in alone.</p>`}</div>`;
+},
+chat(){
+  const e=ev(S.cur), m=S.chats[e.id]||[];
+  return `<div class="msgs">
+    <div class="pin"><b>Meeting point</b><br>${esc(e.day)}, ${esc(e.time)} · ${esc(e.place)}</div>
+    ${m.map(x=>x.sys?`<div class="sys">${esc(x.sys)}</div>`:x.p==="me"?`<div class="msg me">${esc(x.t)}</div>`:`<div class="msg them"><small>${PEOPLE[x.p].name}</small>${esc(x.t)}</div>`).join("")}
+  </div>`;
+},
+chats(){
+  const mine=S.events.filter(e=>S.joined.has(e.id));
+  return `<h2>Your chats</h2><p class="sub">One group per activity. Chat before, meet in person, keep in touch after.</p>
+  ${mine.length?mine.map(e=>{const m=(S.chats[e.id]||[]).filter(x=>!x.sys).slice(-1)[0];return `<button class="card" data-go="${e.past?"after":"chat"}" data-id="${e.id}">
+    <div class="row"><span class="tag ${e.kind==="plan"?"plan":""}">${esc(e.day)}</span>${e.past?'<span class="joined">How was it?</span>':S.unread.has(e.id)?'<span class="joined">New</span>':""}</div>
+    <h4>${esc(e.title)}</h4><div class="meta">${m?(m.p==="me"?"You":PEOPLE[m.p].name)+": "+esc(m.t):"Say hi to the group"}</div></button>`}).join(""):
+  `<p class="meta">Join an activity to start chatting.</p>`}`;
+},
+after(){
+  const e=ev(S.cur);
+  return `<button class="back" data-go="chats">‹ Chats</button>
+  <span class="tag plan">${esc(e.day)} · done</span>
+  <h2>How was ${esc(e.title.toLowerCase())}?</h2>
+  <p class="sub">A first meeting becomes a friendship when it happens again. Keep the people you'd like to see again.</p>
+  ${e.going.map(k=>`<label class="check"><input type="checkbox" id="keep-${k}" data-keep="${k}" ${S.added.has(k)||!S.added.size?"checked":""}>${av(k,"lg")}<span class="who"><b>${PEOPLE[k].name}</b><span class="meta">${PEOPLE[k].int.slice(0,2).join(", ")}</span></span></label>`).join("")}
+  <div style="display:grid;gap:8px;margin-top:18px">
+    <button class="btn" data-act="keep">Add to my circle</button>
+    <button class="btn sun" data-act="againFrom">Plan something again with them</button>
+  </div>`;
+},
+circle(){
+  const ks=Object.keys(S.circle);
+  const next=S.events.filter(e=>!e.past&&!S.joined.has(e.id)&&e.going.some(k=>S.circle[k]));
+  return `<h2>Your circle</h2><p class="sub">People you've actually met. Small circle, real connections.</p>
+  ${ks.map(k=>`<div class="person">${av(k,"lg")}<div class="who"><b>${PEOPLE[k].name}</b><span class="meta">${S.circle[k]} ${S.circle[k]===1?"activity":"activities"} together · ${PEOPLE[k].from}</span></div><button class="chip" data-act="invite" data-v="${k}">Invite</button></div>`).join("")}
+  ${next.length?`<h3>Your circle is going</h3>${next.slice(0,3).map(card).join("")}`:""}`;
+},
+create(){
+  const d=S.draft||{};
+  const tpl=[["Walk around the city","Walks & outdoors","Sun 20 Sep","11:00","Passeig de Gràcia"],["Football tonight","Sports","Wed 16 Sep","20:00","Camp de futbol Joan Miró"],["Grab a coffee","Food & drinks","Thu 17 Sep","16:00","Near campus"],["Watch the match together","Sports watching","Sat 19 Sep","18:30","Bar in Poble-sec"],["Gym session","Gym","Fri 18 Sep","08:00","DiR Diagonal"]];
+  return `<h2>Start a plan</h2><p class="sub">Simple and free. Others who share the interest will see it and can join.</p>
+  <p class="label">Quick start</p>
+  <div class="chips">${tpl.map((t,i)=>`<button class="chip" data-act="tpl" data-v="${i}">${t[0]}</button>`).join("")}</div>
+  <form id="createForm" style="margin-top:16px">
+    <div class="field"><label for="c-title">What's the plan?</label><input id="c-title" required placeholder="Anyone up for padel tomorrow?" value="${esc(d.title||"")}"></div>
+    <div class="field"><label for="c-cat">Interest</label><select id="c-cat">${INTERESTS.map(i=>`<option ${i===(d.cat||"Sports")?"selected":""}>${i}</option>`).join("")}</select></div>
+    <div class="two"><div class="field"><label for="c-day">Day</label><select id="c-day">${["Wed 16 Sep","Thu 17 Sep","Fri 18 Sep","Sat 19 Sep","Sun 20 Sep"].map(o=>`<option ${o===d.day?"selected":""}>${o}</option>`).join("")}</select></div>
+    <div class="field"><label for="c-time">Time</label><input id="c-time" type="time" value="${esc(d.time||"19:00")}"></div></div>
+    <div class="field"><label for="c-place">Meeting point</label><input id="c-place" required placeholder="Metro Diagonal exit" value="${esc(d.place||"")}"></div>
+    <div class="field"><label for="c-cap">Max people</label><select id="c-cap">${[2,4,6,8,12].map(n=>`<option ${n===(d.cap||6)?"selected":""}>${n}</option>`).join("")}</select></div>
+    ${d.invite?`<p class="shared" style="margin:0 0 10px">Inviting ${d.invite.map(k=>PEOPLE[k].name).join(", ")} from your circle</p>`:""}
+    <button class="btn sun" type="submit">Post plan and open chat</button>
+  </form>`;
+},
+profile(){
+  const met=Object.keys(S.circle).length, act=S.joined.size;
+  return `<div style="display:flex;gap:14px;align-items:center;margin-top:8px">${av("me","lg")}<div><h2 style="margin:0">${esc(S.name)}</h2><p class="sub" style="margin:0">In Barcelona since ${esc(S.since.toLowerCase())}</p></div></div>
+  <div class="stats"><div><b>${act}</b><span>activities</span></div><div><b>${met}</b><span>people met</span></div><div><b>${S.interests.size}</b><span>interests</span></div></div>
+  <h3>Interests</h3>
+  <div class="chips">${INTERESTS.map(i=>`<button class="chip ${S.interests.has(i)?"on":""}" data-act="interest" data-v="${esc(i)}">${esc(i)}</button>`).join("")}</div>
+  <h3>Healthy by design</h3>
+  <p class="meta">No streaks, no guilt-trip goodbyes, no infinite scroll. The app is done once you have a plan.</p>
+  <button class="btn ghost" style="margin-top:18px" data-act="reset">Restart prototype</button>`;
+}
+};
+
+function render(){
+  const v=$("#view");
+  if(S.screen==="chat"){
+    const e=ev(S.cur);
+    v.innerHTML=V.chat();
+    v.insertAdjacentHTML("beforebegin","");
+    $("#composer").innerHTML=`<div class="composer"><div class="chips scroll" style="margin:0 -12px;padding:0 12px">${["Hi! I'm new in Barcelona","Anyone want to meet 10 min before?","Is it beginner friendly?","What should I bring?"].map(s=>`<button class="chip" data-act="quick" data-v="${esc(s)}">${esc(s)}</button>`).join("")}</div>
+      <form id="chatForm"><input id="chat-in" placeholder="Message ${esc(e.title.split(" ").slice(0,3).join(" "))}…" autocomplete="off"><button type="submit">Send</button></form></div>`;
+    document.querySelectorAll(".chathead").forEach(n=>n.remove());
+    v.insertAdjacentHTML("beforebegin",`<div class="chathead"><button class="back" data-go="chats">‹</button><div class="t"><b>${esc(e.title)}</b><span class="meta">${e.going.length+1} people · ${esc(e.day)}</span></div><button class="chip" data-go="event" data-id="${e.id}">Details</button></div>`);
+    v.scrollTop=v.scrollHeight;
+  }else{
+    document.querySelectorAll(".chathead").forEach(n=>n.remove());
+    $("#composer").innerHTML="";
+    v.innerHTML=V[S.screen]();
+    v.scrollTop=0;
+  }
+  renderNav();
+}
+function go(screen,id){
+  if(screen==="event"&&["discover","circle","chats"].includes(S.screen))S.prev=S.screen;
+  if(screen==="chat"&&!S.joined.has(id)){S.joined.add(id);}
+  if(screen==="create"&&S.screen!=="create")S.draft=S.draft&&S.draft.keep?{...S.draft,keep:false}:null;
+  if(id)S.cur=id;
+  if(screen==="chat")S.unread.delete(id);
+  S.screen=screen;render();
+}
+function say(text){
+  const id=S.cur;(S.chats[id]=S.chats[id]||[]).push({p:"me",t:text});render();
+  const e=ev(id);if(!e.going.length)return;
+  setTimeout(()=>{const k=e.going[Math.floor(Math.random()*e.going.length)];S.chats[id].push({p:k,t:REPLIES[Math.floor(Math.random()*REPLIES.length)]});
+    if(S.screen==="chat"&&S.cur===id)render();else{S.unread.add(id);renderNav()}},1300);
+}
+
+document.addEventListener("click",ev_=>{
+  const g=ev_.target.closest("[data-go]");
+  if(g){go(g.dataset.go,g.dataset.id);return}
+  const a=ev_.target.closest("[data-act]");if(!a)return;
+  const v=a.dataset.v, e=S.cur&&ev(S.cur);
+  switch(a.dataset.act){
+    case"interest":S.interests.has(v)?S.interests.delete(v):S.interests.add(v);
+      if(S.screen==="onboard"){const n=$("#f-name");if(n)S.name=n.value.trim()||S.name}render();break;
+    case"finishOnboard":S.name=$("#f-name").value.trim()||"Mikkel";S.since=$("#f-since").value;S.cat="For you";go("discover");break;
+    case"seg":S.seg=v;render();break;
+    case"cat":S.cat=v;render();break;
+    case"cheap":S.cheap=!S.cheap;render();break;
+    case"join":if(e.going.length+1>e.cap){toast("This one is full. Try starting a similar plan.");break}
+      S.joined.add(e.id);(S.chats[e.id]=S.chats[e.id]||[]).push({sys:`${S.name} joined the group`});go("chat",e.id);toast("You're in. Say hi to the group!");break;
+    case"leave":S.joined.delete(e.id);render();toast("You left this activity");break;
+    case"quick":say(v);break;
+    case"keep":document.querySelectorAll("[data-keep]").forEach(c=>{if(c.checked){const k=c.dataset.keep;S.added.add(k);S.circle[k]=Math.max(S.circle[k]||0,1)}});go("circle");toast("Added to your circle");break;
+    case"againFrom":{const ks=[...document.querySelectorAll("[data-keep]")].filter(c=>c.checked).map(c=>c.dataset.keep);
+      S.draft={title:"Same crew, round two?",cat:e.cat,day:"Sat 19 Sep",time:e.time,place:e.place,invite:ks,keep:true};go("create");break}
+    case"invite":S.draft={invite:[v],keep:true};go("create");break;
+    case"tpl":{const t=[["Walk around the city","Walks & outdoors","Sun 20 Sep","11:00","Passeig de Gràcia"],["Football tonight","Sports","Wed 16 Sep","20:00","Camp de futbol Joan Miró"],["Grab a coffee","Food & drinks","Thu 17 Sep","16:00","Near campus"],["Watch the match together","Sports watching","Sat 19 Sep","18:30","Bar in Poble-sec"],["Gym session","Gym","Fri 18 Sep","08:00","DiR Diagonal"]][+v];
+      S.draft={...(S.draft||{}),title:t[0]+", who's in?",cat:t[1],day:t[2],time:t[3],place:t[4]};render();break}
+    case"reset":location.reload();break;
+  }
+});
+document.addEventListener("submit",f=>{
+  f.preventDefault();
+  if(f.target.id==="chatForm"){const i=$("#chat-in");if(i.value.trim())say(i.value.trim());return}
+  if(f.target.id==="createForm"){
+    const id="u"+Date.now(), inv=(S.draft&&S.draft.invite)||[];
+    const p={id,kind:"plan",cat:$("#c-cat").value,title:$("#c-title").value.trim(),day:$("#c-day").value,time:$("#c-time").value,place:$("#c-place").value.trim(),price:"Free",disc:null,cap:+$("#c-cap").value,going:[...inv],host:"me",desc:"A casual plan started by "+S.name+"."};
+    S.events.unshift(p);S.joined.add(id);
+    S.chats[id]=[{sys:"You started this plan"},...(inv.length?[{sys:"Invited "+inv.map(k=>PEOPLE[k].name).join(", ")}]:[])];
+    inv.forEach(k=>S.circle[k]=(S.circle[k]||0)+1);
+    S.draft=null;go("chat",id);toast(inv.length?"Plan posted and invites sent":"Plan posted. People with this interest will see it");
+  }
+});
+render();
+</script>
