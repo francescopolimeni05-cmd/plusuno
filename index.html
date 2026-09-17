@@ -1,4 +1,16 @@
-<title>PlusUno Prototype</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PlusUno</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="PlusUno">
+<meta name="theme-color" content="#F7F9FA">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADIklEQVR4nO3csW0UURhG0TEipgIiAnoicQEIiWYQLdATAZELIbCELMGF9dq773/mnNzyzKfrNxvs+ObN7ecD/uTV6gtgLnGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcpNerL+BJ7j58XX0J//b228fVl3Cmm+3+1eQWQZS9Qtkpjq2zeGiXRDaI48U08bvhlUz/QPqCyzjG393ck2P4cM9r5hEy9OT4r8o4pt7vxDhmLnVpA+96XBwDN7qaafc+K45p61zfqAUGxTFql4Xm7DAljjmLTDBkjRFxDNlilAmbrI9jwgozLV9mfRyMtTiO5X8cw63dZ2UcyjjFwpU8Vkh7fxPsbO8+vX/sj/z48v0SVzLZspPDM+V0q7byWCGticOx8VhLFnNykMRBEgdpQRw+cJzn+rs5OUjiIImDJA6SOEjiIImDJA6SOEjiIImDJA6SOEjiIImDJA6SOEjiIG3zxtsZ76hNvoAt3p9zcpDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRykbb7s87zfjvHvrU/h5CCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJg7QgjrffPl7/l74A19/NyUESB0kcpDVx+NjxWEsWc3KQlsXh8Djdqq22eePtef2Hr6+dwWOFtDIOT5ZTLFxp8cmhj79bu4/HCml9HA6PsnyZ9XEcA1YYaMImI+I4Zmwxx5A1psRxjFlkuTk7DIrjmLTLKqMWmBXHMWydK5t27+PiOOZtdB0D73piHMfIpS5q5v3evLn9vPoa/ubuw9fVl3BZM7O4N/Tk+GXydk83/O6mnxwPvZhTZHgTv+wUx72tE9kli3v7xfHQFqHsFcRDe8fBRU3/QMpC4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQO0k/qp4dDeL/P9gAAAABJRU5ErkJggg==">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADIklEQVR4nO3csW0UURhG0TEipgIiAnoicQEIiWYQLdATAZELIbCELMGF9dq773/mnNzyzKfrNxvs+ObN7ecD/uTV6gtgLnGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcpNerL+BJ7j58XX0J//b228fVl3Cmm+3+1eQWQZS9Qtkpjq2zeGiXRDaI48U08bvhlUz/QPqCyzjG393ck2P4cM9r5hEy9OT4r8o4pt7vxDhmLnVpA+96XBwDN7qaafc+K45p61zfqAUGxTFql4Xm7DAljjmLTDBkjRFxDNlilAmbrI9jwgozLV9mfRyMtTiO5X8cw63dZ2UcyjjFwpU8Vkh7fxPsbO8+vX/sj/z48v0SVzLZspPDM+V0q7byWCGticOx8VhLFnNykMRBEgdpQRw+cJzn+rs5OUjiIImDJA6SOEjiIImDJA6SOEjiIImDJA6SOEjiIImDJA6SOEjiIG3zxtsZ76hNvoAt3p9zcpDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRykbb7s87zfjvHvrU/h5CCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJg7QgjrffPl7/l74A19/NyUESB0kcpDVx+NjxWEsWc3KQlsXh8Djdqq22eePtef2Hr6+dwWOFtDIOT5ZTLFxp8cmhj79bu4/HCml9HA6PsnyZ9XEcA1YYaMImI+I4Zmwxx5A1psRxjFlkuTk7DIrjmLTLKqMWmBXHMWydK5t27+PiOOZtdB0D73piHMfIpS5q5v3evLn9vPoa/ubuw9fVl3BZM7O4N/Tk+GXydk83/O6mnxwPvZhTZHgTv+wUx72tE9kli3v7xfHQFqHsFcRDe8fBRU3/QMpC4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQO0k/qp4dDeL/P9gAAAABJRU5ErkJggg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap">
 <style>
@@ -22,7 +34,9 @@
   --on-teal:#08171B; --bubble-me:#2E8C9D; --bubble:#1E3037; --frame:#000000;
 }
 *{box-sizing:border-box}
-body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;padding:32px 16px}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;-webkit-tap-highlight-color:transparent}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--sun);outline-offset:2px}
@@ -43,10 +57,6 @@ button{cursor:pointer}
 .note{font-size:13px;color:var(--muted);max-width:60ch}
 
 /* Phone */
-.phone{width:100%;max-width:400px;height:800px;margin:0 auto;background:var(--frame);border-radius:48px;padding:10px;box-shadow:0 30px 60px -30px rgba(10,30,40,.45)}
-.screen{height:100%;background:var(--panel);border-radius:38px;overflow:hidden;display:flex;flex-direction:column;position:relative}
-@media (max-width:440px){.phone{height:760px;border-radius:36px;padding:6px}.screen{border-radius:30px}}
-.status{display:flex;justify-content:space-between;padding:12px 26px 4px;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
 .view{flex:1;overflow-y:auto;padding:8px 18px 24px}
 .nav{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--surface);padding:6px 6px 14px}
 .nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--muted);padding:6px 0;position:relative}
@@ -127,37 +137,31 @@ h3{font-family:var(--display);font-weight:700;font-size:17px;margin:20px 0 10px}
 .stats span{font-size:11px;color:var(--muted)}
 .check{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
 .check input{width:20px;height:20px;accent-color:var(--teal)}
-.toast{position:absolute;left:18px;right:18px;top:44px;background:var(--ink);color:var(--panel);border-radius:12px;padding:10px 14px;font-size:13px;text-align:center}
+.toast{position:absolute;left:18px;right:18px;top:calc(env(safe-area-inset-top,0px) + 50px);z-index:6;background:var(--ink);color:var(--panel);border-radius:12px;padding:10px 14px;font-size:13px;text-align:center}
 @media (prefers-reduced-motion:no-preference){.view>*{animation:in .25s ease both}@keyframes in{from{opacity:.4;transform:translateY(4px)}}}
+
+/* App shell: full screen on phones, iPhone-sized on larger screens */
+.phone{height:100%;display:flex;align-items:center;justify-content:center}
+.screen{width:100%;height:100%;background:var(--panel);display:flex;flex-direction:column;position:relative;overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
+.nav{padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+.view{padding-top:14px}
+@media (min-width:520px) and (min-height:700px){
+  body{background:var(--frame)}
+  .phone{padding:20px}
+  .screen{width:390px;height:min(844px,calc(100vh - 40px));border-radius:44px;box-shadow:0 0 0 10px #2A3439,0 30px 80px rgba(0,0,0,.5);padding-top:34px}
+  .screen::before{content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);width:110px;height:30px;border-radius:20px;background:#000;z-index:5}
+}
+@media (max-width:519px){.field input,.field select,.composer input{font-size:16px}}
 </style>
+</head>
+<body>
 
-<div class="stage">
-  <section class="brief">
-    <p class="label">Design Sprint · ESADE · Clickable prototype</p>
-    <h1>Plus<span>Uno</span></h1>
-    <p class="tagline">Find something to do. Find someone to do it with. Connect in real life.</p>
-    <p class="hmw">How might we connect young adults aged 18–25, especially those moving to a new city, with people in real life through activities, in order to build deeper connections and meaningful relationships?</p>
-    <p class="label">User journey · tap a step to jump there</p>
-    <ol class="journey">
-      <li><button data-go="onboard"><b>1</b><span>Create profile<small>Pick the interests that matter to you</small></span></button></li>
-      <li><button data-go="discover"><b>2</b><span>Discover activities<small>Everything in Barcelona this week, in one place</small></span></button></li>
-      <li><button data-go="event" data-id="e2"><b>3</b><span>Choose and see who is going<small>Time, place, price, student discounts, people like you</small></span></button></li>
-      <li><button data-go="chat" data-id="e2"><b>4</b><span>Chat before the event<small>Say hi and agree where to meet</small></span></button></li>
-      <li><button data-go="create"><b>5</b><span>Create your own free plan<small>"Anyone up for football tonight?"</small></span></button></li>
-      <li><button data-go="after" data-id="p0"><b>6</b><span>Meet, then connect again<small>Keep the people you met, plan the next one</small></span></button></li>
-      <li><button data-go="circle"><b>7</b><span>Build your circle<small>Same faces, repeated experiences, real friends</small></span></button></li>
-    </ol>
-    <p class="note">Built on our research: 6 interviews, the Mikkel persona (19, first-year student, new in the city) and the insight that the problem is not a lack of things to do, but finding what to do, who to do it with, and turning a first meeting into a lasting connection. All events and people are sample data.</p>
-  </section>
-
-  <div class="phone" aria-label="App prototype">
-    <div class="screen">
-      <div class="status"><span>18:24</span><span>Barcelona</span></div>
-      <main class="view" id="view"></main>
-      <div id="composer"></div>
-      <nav class="nav" id="nav"></nav>
-      <div class="toast" id="toast" hidden></div>
-    </div>
+<div class="phone">
+  <div class="screen">
+    <main class="view" id="view"></main>
+    <div id="composer"></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="toast" id="toast" hidden></div>
   </div>
 </div>
 
@@ -177,7 +181,7 @@ const SEED=[
   {id:"e1",kind:"event",cat:"Running",title:"Sunset run club, 5 km easy pace",day:"Thu 17 Sep",time:"19:00",place:"Parc de la Ciutadella, main gate",price:"Free",disc:null,cap:30,going:["an","so","de"],host:"Ciutadella Runners",desc:"Social run at conversation pace, all levels welcome. Stretch together, then optional drinks by Arc de Triomf."},
   {id:"e2",kind:"event",cat:"Sports watching",title:"Barça match watch party",day:"Thu 17 Sep",time:"21:00",place:"Bar La Esquina, Gràcia",price:"€6",disc:"Students €4 incl. drink",cap:40,going:["ta","ma","ka","lu"],host:"International Students BCN",desc:"Big screen, reserved tables for the group, tapas deal. Come alone, leave with people to watch the next one with."},
   {id:"p1",kind:"plan",cat:"Padel",title:"Padel doubles, need 1 more player",day:"Fri 18 Sep",time:"18:30",place:"Padel Club Diagonal",price:"Free",disc:"Court split €5 each",cap:4,going:["lu","de"],host:"lu",desc:"Beginner-intermediate. I have spare rackets. We already have 3, looking for a fourth!"},
-  {id:"e3",kind:"event",cat:"Language exchange",title:"Intercambio: Spanish, English, Catalan",day:"Fri 18 Sep",time:"20:00",place:"Café Cosmos, Gràcia",price:"Free",disc:null,cap:50,going:["an","ju","so"],host:"Tandem Nights",desc:"Rotating tables every 20 minutes with conversation cards, so there is no awkward small talk."},
+  {id:"e3",kind:"event",cat:"Language exchange",title:"Language exchange: Spanish, English, Catalan",day:"Fri 18 Sep",time:"20:00",place:"Café Cosmos, Gràcia",price:"Free",disc:null,cap:50,going:["an","ju","so"],host:"Tandem Nights",desc:"Rotating tables every 20 minutes with conversation cards, so there is no awkward small talk."},
   {id:"e4",kind:"event",cat:"Startups & career",title:"Founders & students mixer",day:"Sat 19 Sep",time:"11:00",place:"Pier01, Barceloneta",price:"€10",disc:"Students free",cap:80,going:["ka","ta"],host:"BCN Tech City",desc:"Short pitches from early-stage startups, then an open networking brunch."},
   {id:"p2",kind:"plan",cat:"Gaming",title:"FIFA + pizza night, bring a controller",day:"Sat 19 Sep",time:"20:30",place:"Student flat, Sant Antoni",price:"Free",disc:"Pizza €4 each",cap:6,going:["ma","ka"],host:"ma",desc:"Tournament bracket, low stakes, loser buys the gelato."},
   {id:"e5",kind:"event",cat:"Concerts",title:"Indie night at Razzmatazz",day:"Sat 19 Sep",time:"23:30",place:"Razzmatazz, Poblenou",price:"€15",disc:"Students €10 before 1:00",cap:60,going:["ju"],host:"Razz Club",desc:"Meet the group at the door at 23:15 so nobody walks in alone."},
@@ -185,7 +189,7 @@ const SEED=[
   {id:"p0",kind:"plan",cat:"Food & drinks",title:"Coffee after class",day:"Mon 14 Sep",time:"13:00",place:"Satan's Coffee Corner, Gòtic",price:"Free",disc:null,cap:5,going:["lu","ma","an"],host:"lu",desc:"Quick coffee between classes.",past:true}
 ];
 const CHATS={
-  e2:[{sys:"Tom created the group chat"},{p:"ta",t:"Hey all! I booked a table near the screen for us"},{p:"ma",t:"Grande. I'll be there around 20:45"},{p:"ka",t:"First time watching a match here, what's the vibe?"},{p:"lu",t:"Loud and fun. Wear something blaugrana"}],
+  e2:[{sys:"Tom created the group chat"},{p:"ta",t:"Hey all! I booked a table near the screen for us"},{p:"ma",t:"Great. I'll be there around 20:45"},{p:"ka",t:"First time watching a match here, what's the vibe?"},{p:"lu",t:"Loud and fun. Wear something in Barça colours"}],
   p0:[{p:"lu",t:"Coffee tomorrow at 13?"},{p:"an",t:"I'm in!"},{sys:"You met up on Mon 14 Sep"}]
 };
 const REPLIES=["Nice, see you there!","Welcome! Where are you from?","Let's meet 10 minutes before at the entrance","Perfect, I'll look out for you","Haha same, I'm new here too"];
@@ -248,7 +252,7 @@ discover(){
   else if(S.cat!=="All")list=list.filter(e=>e.cat===S.cat);
   if(S.cheap)list=list.filter(e=>e.price==="Free"||e.disc);
   const days=[...new Set(list.map(e=>e.day))];
-  return `<p class="sub" style="margin:0">Hola ${esc(S.name)}</p>
+  return `<p class="sub" style="margin:0">Hi ${esc(S.name)}</p>
   <h2>What's on this week</h2>
   <div class="seg">${[["all","All"],["event","Events"],["plan","Casual plans"]].map(([k,l])=>`<button class="${S.seg===k?"on":""}" data-act="seg" data-v="${k}">${l}</button>`).join("")}</div>
   <div class="chips scroll">${cats.map(c=>`<button class="chip ${S.cat===c?"on":""}" data-act="cat" data-v="${esc(c)}">${esc(c)}</button>`).join("")}</div>
@@ -408,3 +412,5 @@ document.addEventListener("submit",f=>{
 });
 render();
 </script>
+</body>
+</html>

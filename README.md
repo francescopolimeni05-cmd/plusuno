@@ -1,13 +1,17 @@
-# PlusUno, prototipo Streamlit
+# PlusUno: Streamlit prototype
 
-App Streamlit che mostra il prototipo cliccabile di PlusUno e il fumetto del Design Sprint.
+Streamlit app showing the clickable PlusUno prototype and the Design Sprint comic (ESADE).
 
-## Avvio in locale
+## Run locally
 pip install -r requirements.txt
 streamlit run app.py
 
-## Deploy su Streamlit Community Cloud
-1. Carica questa cartella in un repository GitHub (anche pubblico).
-2. Vai su share.streamlit.io, accedi con GitHub e scegli "Create app".
-3. Seleziona il repository, il branch main e come file principale app.py.
-4. Premi "Deploy".
+## Deploy on Streamlit Community Cloud
+1. Go to share.streamlit.io and sign in with GitHub.
+2. Click "Create app" and pick this repository, branch `main`, main file `app.py`.
+3. Click "Deploy". Every push to `main` redeploys the app automatically.
+
+## Phone version
+The app-only, iPhone-sized version is `index.html`, published with GitHub Pages at
+https://francescopolimeni05-cmd.github.io/plusuno/
+Open it in Safari, tap Share → "Add to Home Screen".
