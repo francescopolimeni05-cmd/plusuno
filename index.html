@@ -152,6 +152,22 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
 .av.lg{width:48px;height:48px;font-size:16px;border:0}
 .av.xl{width:88px;height:88px;font-size:30px;border:0;font-family:var(--display)}
 .av .on{position:absolute;right:0;bottom:0;width:12px;height:12px;border-radius:50%;background:var(--ok);border:2px solid var(--surface)}
+.av.pic{overflow:visible;background:none!important;padding:0}
+.av.pic svg{border-radius:50%;overflow:hidden}
+.hearts{display:inline-flex;gap:3px;align-items:center}
+.hearts svg{width:17px;height:17px}
+.hearts .lost{opacity:.28}
+.heartcard{background:var(--surface);border-radius:20px;padding:16px;box-shadow:var(--shadow)}
+.heartcard .big{display:flex;gap:6px;justify-content:center;margin:6px 0 10px}
+.heartcard .big svg{width:30px;height:30px}
+.break{animation:break .8s var(--ease) both}
+@keyframes break{0%{transform:scale(1)}30%{transform:scale(1.35) rotate(-8deg)}100%{transform:scale(1) rotate(0);opacity:.28}}
+.avpick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.avpick button{border:2px solid transparent;border-radius:18px;padding:4px;background:var(--surface);box-shadow:var(--shadow);transition:transform .18s var(--ease)}
+.avpick button.on{border-color:var(--teal)}
+.avpick button:active{transform:scale(.94)}
+.avpick .av{width:100%;height:auto;aspect-ratio:1}
+.paused{min-height:100%;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:14px}
 .vb{display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--teal);color:#fff;vertical-align:-2px;margin-left:4px}
 .vb svg{width:10px;height:10px}
 .av .vtick{position:absolute;right:-2px;top:-2px;width:16px;height:16px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;border:2px solid var(--surface)}
@@ -336,29 +352,29 @@ const TRAITS=[["e","Social energy","Quiet one-on-one","Big lively groups"],["n",
 const COMPAT={Spark:{Spark:8,Host:9,Explorer:7,Anchor:5},Host:{Spark:9,Host:8,Explorer:6,Anchor:7},Explorer:{Spark:7,Host:6,Explorer:8,Anchor:8},Anchor:{Spark:5,Host:7,Explorer:8,Anchor:8}};
 
 const PEOPLE={
-  lu:{name:"Lucía",age:21,g:"f",from:"Madrid",doing:"BBA student at ESADE",color:"#F7C948",type:"Host",online:true,ver:true,int:["Padel","Food & drinks","Walks & outdoors"]},
-  ta:{name:"Tom",age:24,g:"m",from:"Rotterdam",doing:"MSc Finance, first year",color:"#8FD3DE",type:"Spark",online:false,ver:false,int:["Sports watching","Startups & career","Gym"]},
-  an:{name:"Anika",age:22,g:"f",from:"Munich",doing:"Exchange semester at UPF",color:"#F4A9A0",type:"Explorer",online:false,ver:true,int:["Running","Culture","Language exchange"]},
-  ma:{name:"Marco",age:23,g:"m",from:"Bologna",doing:"MiM student, intern at a startup",color:"#B9D98B",type:"Host",online:false,ver:true,int:["Sports watching","Gaming","Food & drinks"]},
-  ju:{name:"Julie",age:25,g:"f",from:"Lyon",doing:"Junior designer at an agency",color:"#C9B6F2",type:"Spark",online:true,ver:true,int:["Concerts","Nightlife","Culture"]},
-  ka:{name:"Kai",age:24,g:"m",from:"Seoul",doing:"MiBA student, ex data analyst",color:"#F7C97E",type:"Explorer",online:true,ver:true,int:["Gaming","Startups & career","Gym"]},
-  so:{name:"Sofia",age:20,g:"f",from:"Lisbon",doing:"BBA student, part-time barista",color:"#9EC5F7",type:"Anchor",online:true,ver:true,int:["Running","Walks & outdoors","Food & drinks"]},
-  de:{name:"Deon",age:22,g:"m",from:"London",doing:"BSc Economics, tennis coach",color:"#E7B3D6",type:"Spark",online:true,ver:true,int:["Padel","Gym","Sports"]},
-  ni:{name:"Nils",age:26,g:"m",from:"Oslo",doing:"Working in logistics, new in town",color:"#A7E0C4",type:"Anchor",online:false,ver:true,int:["Gaming","Walks & outdoors","Gym"]}
+  lu:{name:"Lucía",age:21,av:[1,"long",1,"earrings"],g:"f",from:"Madrid",doing:"BBA student at ESADE",color:"#F7C948",type:"Host",online:true,ver:true,int:["Padel","Food & drinks","Walks & outdoors"]},
+  ta:{name:"Tom",age:24,av:[0,"short",3,"none"],g:"m",from:"Rotterdam",doing:"MSc Finance, first year",color:"#8FD3DE",type:"Spark",online:false,ver:false,int:["Sports watching","Startups & career","Gym"]},
+  an:{name:"Anika",age:22,av:[0,"wavy",4,"glasses"],g:"f",from:"Munich",doing:"Exchange semester at UPF",color:"#F4A9A0",type:"Explorer",online:false,ver:true,int:["Running","Culture","Language exchange"]},
+  ma:{name:"Marco",age:23,av:[2,"curly",0,"beard"],g:"m",from:"Bologna",doing:"MiM student, intern at a startup",color:"#B9D98B",type:"Host",online:false,ver:true,int:["Sports watching","Gaming","Food & drinks"]},
+  ju:{name:"Julie",age:25,av:[1,"bun",7,"earrings"],g:"f",from:"Lyon",doing:"Junior designer at an agency",color:"#C9B6F2",type:"Spark",online:true,ver:true,int:["Concerts","Nightlife","Culture"]},
+  ka:{name:"Kai",age:24,av:[2,"fade",5,"none"],g:"m",from:"Seoul",doing:"MiBA student, ex data analyst",color:"#F7C97E",type:"Explorer",online:true,ver:true,int:["Gaming","Startups & career","Gym"]},
+  so:{name:"Sofia",age:20,av:[3,"curly",1,"none"],g:"f",from:"Lisbon",doing:"BBA student, part-time barista",color:"#9EC5F7",type:"Anchor",online:true,ver:true,int:["Running","Walks & outdoors","Food & drinks"]},
+  de:{name:"Deon",age:22,av:[4,"buzz",0,"none"],g:"m",from:"London",doing:"BSc Economics, tennis coach",color:"#E7B3D6",type:"Spark",online:true,ver:true,int:["Padel","Gym","Sports"]},
+  ni:{name:"Nils",age:26,av:[0,"short",4,"glasses"],g:"m",from:"Oslo",doing:"Working in logistics, new in town",color:"#A7E0C4",type:"Anchor",online:false,ver:true,int:["Gaming","Walks & outdoors","Gym"]}
 };
 const SEED=[
-  {id:"l1",kind:"event",cat:"Concerts",title:"Open mic & tapas night",day:"Thu 17 Sep",time:"Now until 23:00",place:"Plaça de la Virreina, Gràcia",ll:[41.4027,2.1566],price:0,cap:40,set:"in",energy:40,live:true,going:["ju","an"],host:"Gràcia Sessions",desc:"Local musicians, a few brave first-timers and cheap tapas. Sign up at the bar if you want to play."},
-  {id:"l2",kind:"plan",cat:"Sports",title:"Beach volley pickup games",day:"Thu 17 Sep",time:"Now until sunset",place:"Platja del Bogatell",ll:[41.3950,2.2065],price:0,cap:12,set:"out",energy:85,live:true,going:["de","ta","so"],host:"de",desc:"Two nets, rotating teams. Just show up, we'll fit you in."},
-  {id:"l3",kind:"event",cat:"Gaming",title:"Board game café meetup",day:"Thu 17 Sep",time:"Now until 22:00",place:"Café Jugar, Eixample",ll:[41.3920,2.1635],price:4,cap:10,set:"in",energy:25,live:true,going:["ka","ni"],host:"BCN Board Gamers",desc:"Catan, Codenames and a huge shelf of games. €4 table fee includes a drink."},
-  {id:"e1",kind:"event",cat:"Running",title:"Sunset run club, 5 km easy pace",day:"Thu 17 Sep",time:"19:00",place:"Parc de la Ciutadella, main gate",ll:[41.3887,2.1860],price:0,cap:30,set:"out",energy:75,going:["an","so","de"],host:"Ciutadella Runners",desc:"Social run at conversation pace, all levels welcome. Stretch together, then optional drinks by Arc de Triomf."},
-  {id:"e2",kind:"event",cat:"Sports watching",title:"Barça match watch party",day:"Thu 17 Sep",time:"21:00",place:"Bar La Esquina, Gràcia",ll:[41.4005,2.1545],price:4,full:6,cap:40,set:"in",energy:60,going:["ta","ma","ka","lu"],host:"International Students BCN",desc:"Big screen, reserved tables for the group, tapas deal. Come alone, leave with people to watch the next one with."},
-  {id:"p1",kind:"plan",cat:"Padel",title:"Padel doubles, need 1 more player",day:"Fri 18 Sep",time:"18:30",place:"Padel Club Les Corts",ll:[41.3855,2.1290],price:5,cap:4,set:"out",energy:80,going:["lu","de"],host:"lu",desc:"Beginner to intermediate. I have spare rackets. Court split is €5 each."},
-  {id:"e3",kind:"event",cat:"Language exchange",title:"Language exchange: Spanish, English, Catalan",day:"Fri 18 Sep",time:"20:00",place:"Café Cosmos, Gràcia",ll:[41.4035,2.1590],price:0,cap:50,set:"in",energy:35,going:["an","ju","so"],host:"Tandem Nights",desc:"Rotating tables every 20 minutes with conversation cards, so there is no awkward small talk."},
-  {id:"e4",kind:"event",cat:"Startups & career",title:"Founders & students mixer",day:"Sat 19 Sep",time:"11:00",place:"Pier01, Barceloneta",ll:[41.3785,2.1860],price:0,full:10,cap:80,set:"in",energy:50,going:["ka","ta"],host:"BCN Tech City",desc:"Short pitches from early-stage startups, then an open networking brunch. Free for students."},
-  {id:"p2",kind:"plan",cat:"Gaming",title:"FIFA + pizza night",day:"Sat 19 Sep",time:"20:30",place:"Student flat, Sant Antoni",ll:[41.3785,2.1610],price:4,cap:6,set:"in",energy:30,going:["ma","ka"],host:"ma",desc:"Tournament bracket, low stakes, loser buys the gelato. Pizza €4 each."},
-  {id:"e5",kind:"event",cat:"Nightlife",title:"Indie night at Razzmatazz",day:"Sat 19 Sep",time:"23:30",place:"Razzmatazz, Poblenou",ll:[41.3978,2.1910],price:10,full:15,cap:60,set:"in",energy:90,going:["ju"],host:"Razz Club",desc:"Meet the group at the door at 23:15 so nobody walks in alone."},
-  {id:"p3",kind:"plan",cat:"Walks & outdoors",title:"Sunday walk up to Bunkers del Carmel",day:"Sun 20 Sep",time:"10:00",place:"Metro Alfons X (L4)",ll:[41.4188,2.1617],price:0,cap:8,set:"out",energy:55,going:["so","an","lu"],host:"so",desc:"Easy one-hour walk with the best view of the city. Coffee afterwards."},
-  {id:"p0",kind:"plan",cat:"Food & drinks",title:"Coffee after class",day:"Mon 14 Sep",time:"13:00",place:"Satan's Coffee Corner, Gòtic",ll:[41.3829,2.1771],price:3,cap:5,set:"in",energy:20,going:["lu","ma","an"],host:"lu",desc:"Quick coffee between classes.",past:true}
+  {id:"l1",hrs:0,kind:"event",cat:"Concerts",title:"Open mic & tapas night",day:"Thu 17 Sep",time:"Now until 23:00",place:"Plaça de la Virreina, Gràcia",ll:[41.4027,2.1566],price:0,cap:40,set:"in",energy:40,live:true,going:["ju","an"],host:"Gràcia Sessions",desc:"Local musicians, a few brave first-timers and cheap tapas. Sign up at the bar if you want to play."},
+  {id:"l2",hrs:0,kind:"plan",cat:"Sports",title:"Beach volley pickup games",day:"Thu 17 Sep",time:"Now until sunset",place:"Platja del Bogatell",ll:[41.3950,2.2065],price:0,cap:12,set:"out",energy:85,live:true,going:["de","ta","so"],host:"de",desc:"Two nets, rotating teams. Just show up, we'll fit you in."},
+  {id:"l3",hrs:0,kind:"event",cat:"Gaming",title:"Board game café meetup",day:"Thu 17 Sep",time:"Now until 22:00",place:"Café Jugar, Eixample",ll:[41.3920,2.1635],price:4,cap:10,set:"in",energy:25,live:true,going:["ka","ni"],host:"BCN Board Gamers",desc:"Catan, Codenames and a huge shelf of games. €4 table fee includes a drink."},
+  {id:"e1",hrs:2,kind:"event",cat:"Running",title:"Sunset run club, 5 km easy pace",day:"Thu 17 Sep",time:"19:00",place:"Parc de la Ciutadella, main gate",ll:[41.3887,2.1860],price:0,cap:30,set:"out",energy:75,going:["an","so","de"],host:"Ciutadella Runners",desc:"Social run at conversation pace, all levels welcome. Stretch together, then optional drinks by Arc de Triomf."},
+  {id:"e2",hrs:4,kind:"event",cat:"Sports watching",title:"Barça match watch party",day:"Thu 17 Sep",time:"21:00",place:"Bar La Esquina, Gràcia",ll:[41.4005,2.1545],price:4,full:6,cap:40,set:"in",energy:60,going:["ta","ma","ka","lu"],host:"International Students BCN",desc:"Big screen, reserved tables for the group, tapas deal. Come alone, leave with people to watch the next one with."},
+  {id:"p1",hrs:25,kind:"plan",cat:"Padel",title:"Padel doubles, need 1 more player",day:"Fri 18 Sep",time:"18:30",place:"Padel Club Les Corts",ll:[41.3855,2.1290],price:5,cap:4,set:"out",energy:80,going:["lu","de"],host:"lu",desc:"Beginner to intermediate. I have spare rackets. Court split is €5 each."},
+  {id:"e3",hrs:27,kind:"event",cat:"Language exchange",title:"Language exchange: Spanish, English, Catalan",day:"Fri 18 Sep",time:"20:00",place:"Café Cosmos, Gràcia",ll:[41.4035,2.1590],price:0,cap:50,set:"in",energy:35,going:["an","ju","so"],host:"Tandem Nights",desc:"Rotating tables every 20 minutes with conversation cards, so there is no awkward small talk."},
+  {id:"e4",hrs:41,kind:"event",cat:"Startups & career",title:"Founders & students mixer",day:"Sat 19 Sep",time:"11:00",place:"Pier01, Barceloneta",ll:[41.3785,2.1860],price:0,full:10,cap:80,set:"in",energy:50,going:["ka","ta"],host:"BCN Tech City",desc:"Short pitches from early-stage startups, then an open networking brunch. Free for students."},
+  {id:"p2",hrs:51,kind:"plan",cat:"Gaming",title:"FIFA + pizza night",day:"Sat 19 Sep",time:"20:30",place:"Student flat, Sant Antoni",ll:[41.3785,2.1610],price:4,cap:6,set:"in",energy:30,going:["ma","ka"],host:"ma",desc:"Tournament bracket, low stakes, loser buys the gelato. Pizza €4 each."},
+  {id:"e5",hrs:54,kind:"event",cat:"Nightlife",title:"Indie night at Razzmatazz",day:"Sat 19 Sep",time:"23:30",place:"Razzmatazz, Poblenou",ll:[41.3978,2.1910],price:10,full:15,cap:60,set:"in",energy:90,going:["ju"],host:"Razz Club",desc:"Meet the group at the door at 23:15 so nobody walks in alone."},
+  {id:"p3",hrs:65,kind:"plan",cat:"Walks & outdoors",title:"Sunday walk up to Bunkers del Carmel",day:"Sun 20 Sep",time:"10:00",place:"Metro Alfons X (L4)",ll:[41.4188,2.1617],price:0,cap:8,set:"out",energy:55,going:["so","an","lu"],host:"so",desc:"Easy one-hour walk with the best view of the city. Coffee afterwards."},
+  {id:"p0",hrs:-72,kind:"plan",cat:"Food & drinks",title:"Coffee after class",day:"Mon 14 Sep",time:"13:00",place:"Satan's Coffee Corner, Gòtic",ll:[41.3829,2.1771],price:3,cap:5,set:"in",energy:20,going:["lu","ma","an"],host:"lu",desc:"Quick coffee between classes.",past:true}
 ];
 const CHATS={
   e2:[{sys:"Tom created the group chat"},{p:"ta",t:"Hey all! I booked a table near the screen for us"},{p:"ma",t:"Great. I'll be there around 20:45"},{p:"ka",t:"First time watching a match here, what's the vibe?"},{p:"lu",t:"Loud and fun. Wear something in Barça colours"}],
@@ -412,7 +428,8 @@ const AX=(()=>{const r={e:[0,0],n:[0,0],p:[0,0],d:[0,0]};
 const pct=(k,v)=>Math.round((v-AX[k][0])/(AX[k][1]-AX[k][0])*100);
 
 /* ---------- State ---------- */
-const fresh=()=>({screen:"onboard",step:1,prevTab:"discover",hist:[],name:"Mikkel",age:19,g:"m",
+const LOOKS=[[1,"short",1,"none"],[0,"curly",0,"none"],[2,"wavy",3,"glasses"],[3,"buzz",0,"none"],[1,"long",6,"earrings"],[4,"fade",5,"none"],[0,"bun",7,"none"],[2,"short",2,"beard"]];
+const fresh=()=>({screen:"onboard",step:1,lives:5,attStreak:0,log:[{t:"Coffee after class",d:"Mon 14 Sep",r:"went"}],look:{skin:1,hair:"short",hc:1,acc:"none"},prevTab:"discover",hist:[],name:"Mikkel",age:19,g:"m",
   doing:"First-year Business student at ESADE",home:"Aarhus, Denmark",ver:{email:false,photo:false,phone:false},
   filters:{ageMin:18,ageMax:30,gender:"any",verified:false},
   interests:new Set(["Gym","Gaming","Sports watching","Startups & career"]),
@@ -429,13 +446,56 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"
 const ev=id=>S.events.find(e=>e.id===id);
 const initials=n=>n.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
 const isFriend=k=>!!S.friends[k];
+const SKIN=["#F3D2B3","#E8BE97","#D9A579","#B97F55","#8D5A34","#6B4226"];
+const HAIRC=["#2B2118","#4A3524","#6E4B2A","#9C6B3F","#C9903F","#1F1B18","#7A5C43","#3A2C4A"];
+function face(k,ring){
+  const P=k==="me"?{skin:S.look.skin,hair:S.look.hair,hc:S.look.hc,acc:S.look.acc,bg:"#F2B705"}:
+    {skin:SKIN[PEOPLE[k].av[0]],hair:PEOPLE[k].av[1],hc:HAIRC[PEOPLE[k].av[2]],acc:PEOPLE[k].av[3],bg:PEOPLE[k].color};
+  const sk=k==="me"?SKIN[P.skin]:P.skin, hc=k==="me"?HAIRC[P.hc]:P.hc;
+  const hair={
+    short:`<path d="M26 44c0-16 9-24 24-24s24 8 24 24c0-6-6-10-12-11-7-1-10 3-19 2-8-1-13 2-17 9z" fill="${hc}"/>`,
+    buzz:`<path d="M27 44c1-15 10-22 23-22s22 7 23 22c-3-8-12-12-23-12s-20 4-23 12z" fill="${hc}"/>`,
+    wavy:`<path d="M25 46c-1-18 10-26 25-26s26 8 25 26c-2-7-5-11-8-13 1 5-1 8-4 9 1-6-2-9-6-10-5-1-8 2-14 1-6-1-11 1-14 4-2 2-3 5-4 9z" fill="${hc}"/><path d="M24 44c-2 8 0 16 3 20-5-6-7-14-3-20z" fill="${hc}"/>`,
+    long:`<path d="M24 48c0-18 10-28 26-28s26 10 26 28v26c0 4-4 6-7 4V48c-4-8-11-10-19-9-8 1-14 3-18 9v30c-3 2-8 0-8-4z" fill="${hc}"/>`,
+    bun:`<circle cx="50" cy="18" r="9" fill="${hc}"/><path d="M26 45c0-16 10-24 24-24s24 8 24 24c-4-9-12-12-24-12s-20 3-24 12z" fill="${hc}"/>`,
+    curly:`<g fill="${hc}">${[[30,40],[38,28],[50,24],[62,28],[70,40],[28,52],[72,52]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="11"/>`).join("")}</g>`,
+    fade:`<path d="M28 42c2-13 10-20 22-20s20 7 22 20c-5-6-12-9-22-9s-17 3-22 9z" fill="${hc}"/><path d="M27 46c0-3 .5-6 1-8 3 4 7 6 7 10-3 0-6-1-8-2z" fill="${hc}" opacity=".5"/>`
+  }[P.hair]||"";
+  const acc={none:"",glasses:`<g fill="none" stroke="#2B2118" stroke-width="2.4"><circle cx="40" cy="54" r="8"/><circle cx="62" cy="54" r="8"/><path d="M48 54h6M32 52l-5-2M70 52l5-2"/></g>`,
+    beard:`<path d="M31 58c2 16 10 24 19 24s17-8 19-24c-3 12-10 16-19 16s-16-4-19-16z" fill="${hc}" opacity=".9"/>`,
+    earrings:`<circle cx="27" cy="58" r="3" fill="#F2B705"/><circle cx="73" cy="58" r="3" fill="#F2B705"/>`}[P.acc]||"";
+  return `<svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true" style="display:block">
+    <rect width="100" height="100" rx="50" fill="${P.bg}"/>
+    <path d="M50 100c-22 0-34-11-34-22 0-8 10-12 20-15h28c10 3 20 7 20 15 0 11-12 22-34 22z" fill="#FFFFFF" opacity=".92"/>
+    <rect x="42" y="58" width="16" height="16" rx="7" fill="${sk}"/>
+    <ellipse cx="50" cy="48" rx="24" ry="27" fill="${sk}"/>
+    ${P.hair==="long"?hair:""}
+    <ellipse cx="26" cy="50" rx="4" ry="6" fill="${sk}"/><ellipse cx="74" cy="50" rx="4" ry="6" fill="${sk}"/>
+    <ellipse cx="41" cy="50" rx="2.6" ry="3.2" fill="#2B2118"/><ellipse cx="59" cy="50" rx="2.6" ry="3.2" fill="#2B2118"/>
+    <path d="M43 62q7 6 14 0" fill="none" stroke="#2B2118" stroke-width="2.6" stroke-linecap="round"/>
+    ${P.hair!=="long"?hair:""}${acc}
+    ${ring?`<rect x="1.5" y="1.5" width="97" height="97" rx="48.5" fill="none" stroke="#fff" stroke-width="3"/>`:""}
+  </svg>`;
+}
+function face2(l){const save=S.look;S.look={skin:l[0],hair:l[1],hc:l[2],acc:l[3]};const out=face("me");S.look=save;return out}
 const TICK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>';
 const verifiedMe=()=>S.ver.email&&S.ver.photo;
 const vbadge=k=>(k==="me"?verifiedMe():PEOPLE[k].ver)?`<span class="vb" title="Verified">${TICK}</span>`:"";
 const av=(k,cls="",dot=false)=>{
   const v=(k==="me"?verifiedMe():PEOPLE[k].ver)&&/lg|xl/.test(cls)?`<i class="vtick">${TICK}</i>`:"";
-  return k==="me"?`<span class="av ${cls}" style="background:var(--sun)">${esc(initials(S.name))}${v}</span>`:
-  `<span class="av ${cls}" style="background:${PEOPLE[k].color}">${initials(PEOPLE[k].name)}${dot&&PEOPLE[k].online?'<i class="on"></i>':""}${v}</span>`};
+  const on=k!=="me"&&dot&&PEOPLE[k].online?'<i class="on"></i>':"";
+  return `<span class="av pic ${cls}">${face(k)}${on}${v}</span>`};
+const HEART='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-8-5.1-8-10.4A4.6 4.6 0 0 1 12 7.6 4.6 4.6 0 0 1 20 10.6C20 15.9 12 21 12 21z"/></svg>';
+const hearts=(n=S.lives,cls="")=>`<span class="hearts ${cls}">${[1,2,3,4,5].map(i=>`<span style="color:${i<=n?"var(--live)":"var(--line)"}" class="${i<=n?"":"lost"}">${HEART}</span>`).join("")}</span>`;
+function loseLife(reason,title){
+  S.lives=Math.max(0,S.lives-1);S.attStreak=0;S.log.unshift({t:title,d:"Today",r:reason});
+  if(S.lives===0){S.screen="paused";render("fwd");return}
+  toast(reason==="late"?`Heart lost: cancelled less than 3 hours before`:`Heart lost: you didn't show up`);
+}
+function attended(title){
+  S.attStreak++;S.log.unshift({t:title,d:"Today",r:"went"});
+  if(S.attStreak>=3&&S.lives<5){S.lives++;S.attStreak=0;toast("Three in a row, you got a heart back");confetti()}
+}
 const GENDER=[["any","Anyone"],["mixed","Mixed groups"],["f","Mostly women"],["m","Mostly men"]];
 function passFilters(e){
   const f=S.filters, g=e.going;
@@ -511,13 +571,14 @@ const ICON={
   send:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2-7z"/></svg>',
   check:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>',
   x:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   sliders:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg>',
   plusp:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.8-3.5 3-5.5 6-5.5s5 1.5 5.8 3.5M19 8v6M16 11h6"/></svg>'
 };
 const TABS=["discover","map","create","chats","friends"];
 function renderNav(){
-  const tab={discover:"discover",event:S.prevTab,map:"map",chats:"chats",chat:"chats",after:"chats",create:"create",friends:"friends",friend:"friends",profile:"discover",quiz:"discover",result:"discover",filters:"discover",verify:"discover"}[S.screen];
-  if(["onboard","quiz","result"].includes(S.screen)&&!S.done){$("#nav").hidden=true;return}
+  const tab={discover:"discover",event:S.prevTab,map:"map",chats:"chats",chat:"chats",after:"chats",create:"create",friends:"friends",friend:"friends",profile:"discover",quiz:"discover",result:"discover",filters:"discover",verify:"discover",cancel:"discover",paused:"discover"}[S.screen];
+  if((["onboard","quiz","result"].includes(S.screen)&&!S.done)||S.screen==="paused"){$("#nav").hidden=true;return}
   $("#nav").hidden=false;
   const idx=Math.max(0,TABS.indexOf(tab));
   const nreq=S.requests.length;
@@ -553,6 +614,8 @@ onboard(){
     <div class="field"><label for="f-age">Age</label><input id="f-age" type="number" min="16" max="60" value="${S.age}"></div></div>
   <div class="field st" style="--i:2"><label for="f-doing">What are you up to right now?</label><input id="f-doing" value="${esc(S.doing)}" placeholder="Studying, working, both"></div>
   <div class="field st" style="--i:2"><label for="f-home">Where are you from?</label><input id="f-home" value="${esc(S.home)}" placeholder="City, country"></div>
+  <p class="eyebrow st" style="--i:3">Profile picture</p>
+  <div class="avpick st" style="--i:3">${LOOKS.slice(0,4).map((l,i)=>`<button class="${S.look.hair===l[1]&&S.look.skin===l[0]&&S.look.acc===l[3]?"on":""}" data-act="pickLook" data-v="${i}" aria-label="Avatar ${i+1}"><span class="av pic">${face2(l)}</span></button>`).join("")}</div>
   <p class="eyebrow st" id="intlabel" style="--i:3">Your interests · ${S.interests.size} selected</p>
   <div class="chips st" style="--i:4">${INTERESTS.map(i=>`<button class="chip ${S.interests.has(i)?"on":""}" data-act="interest" data-v="${esc(i)}">${esc(i)}</button>`).join("")}</div>
   <div class="st" style="margin-top:24px;--i:4"><button class="btn" data-act="step" data-v="2">Continue</button></div>`;
@@ -595,7 +658,8 @@ discover(){
   const live=S.events.filter(e=>e.live);
   const days=S.cat==="For you"?["Best matches this week"]:[...new Set(list.map(e=>e.day))];
   return `<div class="top st"><div><p class="meta" style="margin:0">Hi ${esc(S.name)} ${S.type?`· <span class="typebadge">${S.type}</span>`:""}</p><h2 style="margin:2px 0 0">What's on in Barcelona</h2></div>
-    <button class="mebtn" data-go="profile" aria-label="Your profile">${esc(initials(S.name))}</button></div>
+    <button class="mebtn" data-go="profile" aria-label="Your profile" style="padding:0;overflow:hidden">${face("me")}</button></div>
+  <div class="row st" style="--i:1;margin-top:10px"><span class="meta">Your hearts ${hearts()}</span><button class="link" data-go="profile" style="font-size:13px">How it works</button></div>
   <div class="row st" style="--i:1;margin-top:14px"><p class="eyebrow" style="margin:0"><span style="color:var(--live)">●</span> Live near you</p><button class="link" data-act="mapLive" style="font-size:13px">See map</button></div>
   <div class="livestrip st" style="--i:2">${live.map(e=>`<button class="livecard" style="${grad(e.cat)}" data-go="event" data-id="${e.id}">${svg(CAT[e.cat][0],"bg")}<span class="livedot">LIVE</span><b>${esc(e.title)}</b><span>${esc(e.place.split(",")[0])} · ${e.going.length} there</span></button>`).join("")}</div>
   <div class="seg st" style="--i:3"><span class="knob" style="transform:translateX(${["all","event","plan"].indexOf(S.seg)*100}%)"></span>${[["all","All"],["event","Events"],["plan","Casual plans"]].map(([k,l])=>`<button class="${S.seg===k?"on":""}" data-act="seg" data-v="${k}">${l}</button>`).join("")}</div>
@@ -623,6 +687,35 @@ filters(){
   <div class="list st" style="--i:7"><label class="check" style="justify-content:space-between"><span class="who"><b>Verified people only</b><span class="meta" style="display:block">Student email and selfie check passed</span></span><input type="checkbox" id="f-ver" data-act="verOnly" ${f.verified?"checked":""}></label></div>
   <div class="why st" style="--i:8">Right now ${S.events.filter(e=>!e.past&&passFilters(e)).length} of ${S.events.filter(e=>!e.past).length} activities match.</div>
   <div style="margin-top:16px" class="st" style="--i:9"><button class="btn" data-act="back">Show results</button></div>`;
+},
+cancel(){
+  const e=ev(S.cur), late=(e.hrs||0)<3;
+  return `<div class="row"><button class="back" data-act="back" aria-label="Back">${ICON.back}</button>${hearts()}</div>
+  <h2 class="st" style="margin-top:14px">Can't make it to ${esc(e.title.toLowerCase())}?</h2>
+  <p class="sub st" style="--i:1">${e.hrs>0?`It starts in about <b>${e.hrs} ${e.hrs===1?"hour":"hours"}</b>.`:"It has already started."}</p>
+  <div class="${late?"heartcard":"why"} st" style="--i:2">${late?
+    `<b>Cancelling now costs a heart.</b><p class="meta" style="margin:6px 0 0">Less than 3 hours before the start, the others have already planned around you. You have ${S.lives} ${S.lives===1?"heart":"hearts"} left.</p>`:
+    `<b>Free cancellation.</b> There are more than 3 hours to go, so the group has time to re-plan. No heart lost.`}</div>
+  <div class="list st" style="--i:3" style="margin-top:12px">
+    <div class="person"><span class="num" style="width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:var(--ground);flex:none">${ICON.clock}</span><div class="who"><b>Cancel more than 3 hours before</b><span class="meta" style="display:block">Always free</span></div></div>
+    <div class="person"><span class="num" style="width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:var(--live-soft);color:var(--live);flex:none">${HEART}</span><div class="who"><b>Cancel later, or don't show up</b><span class="meta" style="display:block">One heart. Five hearts and your account is paused.</span></div></div>
+  </div>
+  <div style="display:grid;gap:8px;margin-top:20px" class="st" style="--i:4">
+    <button class="btn ${late?"":"ghost"}" data-act="doCancel" data-v="${late?"late":"free"}">${late?"Cancel anyway and lose a heart":"Cancel my spot"}</button>
+    <button class="btn ${late?"ghost":""}" data-act="back">Keep my spot</button>
+    ${late?`<button class="link" data-act="doCancel" data-v="excuse">Something happened, ask the group</button>`:""}</div>`;
+},
+paused(){
+  return `<div class="paused">
+    <div class="st">${hearts(0)}</div>
+    <h2 class="st" style="--i:1">Your account is paused</h2>
+    <p class="sub st" style="--i:2">You lost all five hearts by not showing up, or cancelling less than 3 hours before. People planned around you five times.</p>
+    <div class="heartcard st" style="--i:3;text-align:left"><b>What happens now</b>
+      <p class="meta" style="margin:6px 0 0">You can't join or create activities. Your group chats stay read-only for 7 days. After 30 days you can ask for your account back, starting with 3 hearts.</p></div>
+    <div style="display:grid;gap:8px" class="st" style="--i:4">
+      <button class="btn" data-act="appeal">Appeal this decision</button>
+      <button class="btn ghost" data-act="restore">Restore hearts (prototype demo)</button></div>
+    <p class="meta st" style="--i:5">Hearts exist because an empty table is what made people stop trusting meetup apps in our interviews.</p></div>`;
 },
 verify(){
   const v=S.ver, done=Object.values(v).filter(Boolean).length;
@@ -668,7 +761,7 @@ event(){
     ${isFriend(k)?`<button class="btn small ghost" data-go="friend" data-id="${k}">Friend</button>`:S.sent.has(k)?`<button class="btn small ghost" disabled>Requested</button>`:S.requests.includes(k)?`<button class="btn small" data-act="accept" data-v="${k}">Accept</button>`:`<button class="btn small" data-act="addFriend" data-v="${k}">${ICON.plusp} Add</button>`}</div>`}).join("")}
   ${j?`<div class="person">${av("me","lg")}<div class="who"><b>You</b><span class="meta">New in Barcelona</span></div></div>`:""}</div>
   <div class="sticky-cta">${e.past?`<button class="btn sun" data-go="after" data-id="${e.id}">How was it?</button>`:
-   j?`<button class="btn" data-go="chat" data-id="${e.id}">Open group chat</button><button class="link" data-act="leave">Leave this activity</button>`:
+   j?`<button class="btn" data-go="chat" data-id="${e.id}">Open group chat</button><button class="link" data-go="cancel" data-id="${e.id}">Can't make it?</button>`:
    `<button class="btn" data-act="join">Join and say hi in the chat</button><p class="hint">You'll meet the group in the chat first, so you never walk in alone.</p>`}</div>
   </div>`;
 },
@@ -692,7 +785,9 @@ after(){
   const e=ev(S.cur);
   return `<div class="row"><button class="back" data-go="chats" aria-label="Back">${ICON.back}</button><span class="typebadge">${esc(e.day)} · done</span></div>
   <h2 class="st" style="margin-top:16px">How was ${esc(e.title.toLowerCase())}?</h2>
-  <p class="sub st" style="--i:1">A first meeting becomes a friendship when it happens again. Add the people you'd like to see again.</p>
+  <p class="sub st" style="--i:1">First, did you make it? Not showing up without cancelling costs a heart.</p>
+  <div class="two st" style="--i:1;margin-bottom:18px"><button class="btn" data-act="wentYes" data-v="${e.id}">I went</button><button class="btn ghost" data-act="wentNo" data-v="${e.id}">I didn't go</button></div>
+  <p class="sub st" style="--i:2">Add the people you'd like to see again.</p>
   <div class="list st" style="--i:2">${e.going.map(k=>`<label class="check"><input type="checkbox" id="keep-${k}" data-keep="${k}" checked>${av(k,"lg")}<span class="who" style="flex:1"><b>${PEOPLE[k].name}</b><span class="meta" style="display:block">${isFriend(k)?"Already a friend":PEOPLE[k].int.slice(0,2).join(", ")}</span></span></label>`).join("")}</div>
   <div class="st" style="display:grid;gap:8px;margin-top:18px;--i:3">
     <button class="btn" data-act="keep">Add as friends</button>
@@ -754,6 +849,16 @@ profile(){
   <div class="list st" style="--i:1;margin-top:6px"><div class="person"><span class="num" style="width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:${verifiedMe()?"var(--teal)":"var(--ground)"};color:${verifiedMe()?"#fff":"var(--muted)"}">${TICK.replace('stroke-width="4"','stroke-width="3"')}</span>
     <div class="who"><b>${verifiedMe()?"Verified profile":"Not verified yet"}</b><span class="meta" style="display:block">${verifiedMe()?"Student email and selfie checked":"Verified people get a badge and more invites"}</span></div>
     <button class="btn small ${verifiedMe()?"ghost":""}" data-go="verify">${verifiedMe()?"Manage":"Verify"}</button></div></div>
+  <h3 class="st" style="--i:2">Showing up</h3>
+  <div class="heartcard st" style="--i:2">
+    <div class="row"><b>${S.lives} of 5 hearts</b><span class="meta">${S.attStreak}/3 to earn one back</span></div>
+    <div class="big">${hearts()}</div>
+    <p class="meta" style="margin:0">Cancel more than 3 hours before and it's free. Later than that, or not showing up, costs a heart. At zero hearts the account is paused. Three activities attended in a row gives a heart back.</p>
+    ${S.log.length?`<h3 style="margin:14px 0 4px;font-size:15px">Recent</h3>${S.log.slice(0,4).map(l=>`<div class="person" style="padding:8px 0"><span style="color:${l.r==="went"?"var(--ok)":"var(--live)"};display:grid;place-items:center;width:26px">${l.r==="went"?ICON.check:HEART}</span><div class="who"><b style="font-size:14px">${esc(l.t)}</b><span class="meta" style="display:block">${esc(l.d)} · ${l.r==="went"?"you went":l.r==="late"?"cancelled late, heart lost":l.r==="excuse"?"told the group, heart lost":"no-show, heart lost"}</span></div></div>`).join("")}`:""}
+  </div>
+  <h3 class="st" style="--i:2">Profile picture</h3>
+  <div class="avpick st" style="--i:2">${LOOKS.map((l,i)=>`<button class="${S.look.hair===l[1]&&S.look.skin===l[0]&&S.look.acc===l[3]?"on":""}" data-act="pickLook" data-v="${i}" aria-label="Avatar ${i+1}"><span class="av pic">${face2(l)}</span></button>`).join("")}</div>
+  <p class="meta st" style="--i:2;margin-top:8px">In the real app this is a photo, checked against your selfie during verification. In the prototype, pick an illustration.</p>
   <h3 class="st" style="--i:2">About you</h3>
   <div class="st" style="--i:2"><div class="two"><div class="field"><label for="f-name">Name</label><input id="f-name" value="${esc(S.name)}"></div><div class="field"><label for="f-age">Age</label><input id="f-age" type="number" min="16" max="90" value="${S.age}"></div></div>
   <div class="field"><label for="f-doing">Right now I'm</label><input id="f-doing" value="${esc(S.doing)}"></div>
@@ -916,6 +1021,16 @@ document.addEventListener("click",evt=>{
       setTimeout(()=>{S.ver[k]=true;const was=verifiedMe();render();
         toast(k==="email"?"Student email verified":k==="photo"?"Selfie check passed":"Phone number verified");
         if(was&&k!=="phone")confetti()},1400);break}
+    case"pickLook":{const l=LOOKS[+v];S.look={skin:l[0],hair:l[1],hc:l[2],acc:l[3]};saveIdentity();render();break}
+    case"doCancel":{const e=ev(S.cur);S.joined.delete(e.id);
+      if(v==="free"){S.hist=[];S.screen=S.prevTab;render("tab");toast("Spot cancelled. No heart lost")}
+      else{const box=document.querySelector(".hearts");if(box)box.classList.add("break");
+        setTimeout(()=>{loseLife(v,e.title);if(S.screen!=="paused"){S.hist=[];S.screen=S.prevTab;render("tab")}},700)}
+      break}
+    case"wentYes":{attended(ev(v).title);a.closest(".two").innerHTML='<div class="why" style="grid-column:1/-1">Thanks, marked as attended.</div>';break}
+    case"wentNo":{const e=ev(v);S.joined.delete(e.id);loseLife("noshow",e.title);if(S.screen!=="paused")render();break}
+    case"appeal":toast("Appeal sent. A human reviews it within 48 hours");break;
+    case"restore":S.lives=5;S.attStreak=0;S.screen="discover";S.hist=[];render("tab");toast("Hearts restored");confetti();break;
     case"reset":if(MAP){MAP.remove();MAP=null}S=fresh();render("tab");break;
   }
 });
